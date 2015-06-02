@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>MD5 Collisions</title>
+	<style>
+	@font-face {
+	    font-family: myFont;
+	    src: url(RobotoSlab-Thin.ttf);
+	}
+	body{
+		font-family: myFont;
+		letter-spacing: 0.03em;
+		font-weight: bold;
+		margin : 0 30px;
+	}
+	p{
+		text-indent:2em;
+	}
+	span{
+		display: inline-block;
+		position: relative;
+		left:2em;
+		font-size: 0.7em;
+	}
+	</style>
+</head>
+<body>
+	<h1>MD5 Collision</h1>
+	<h3><u>Fungsi Hash</u></h3>
+	
+	<p>Fungsi Hash adalah sebuah fungsi umumnya digunakan untuk memetakan sejumlah data dengan ukuran tak tentu menjadi sebuah data dengan ukuran yang tetap. Salah satu tmepat penggunaannya adalah pada struktur data Hash Table dimana kita meng-hash key dari input kita dan mendapatkan suatu indeks untuk menaruh value dari key input kita.</p>
+	
+	<p>Namun, dalam dunia Cryptography, sebuah fungsi hash haruslah dapat dengan mudah kita hash namun sangat sulit untuk mencari data awal melalui suatu hasil hash (haruslah merupakan fungsi satu arah) ataupun sangat sulit ( bukan tidak mungkin ) untuk mencari dua buah message yang berbeda dengan hash yang sama (atau dengan kata lain sangat sulit untuk mengubah suatu message tanpa mengubah hasil hash). Ini sangat berguna untuk memastikan integritas dari suatu data, misalkan data yang dikirim melalui network dimana akan sangat mudah di-intercept dan dirubah oleh pihak yang lain dengan tujuan yang tidak baik. Dengan membandingkan hasil hash data yang dikirim dengan hash terpisah yang dikirim bersamaan secara aman, maka apabila terdapat perbedaan maka dapat dipastikan bahwa terdapat kesalahan (baik disengaja oleh pihak yang tidak berwenang ataupun error).</p>
+	
+	<p>Pada kriptografi, data masukan sering disebut message dan hasil hash dari message tersebut disebut message digest.</p>
+	
+	<p>Contoh aplikasi hash:</p>
+	
+	<p>Misalkan terdapat 2 buah orang yaitu Alice dan Bob yang sedang berlomba untuk menyelesaikan suatu permasalahan matematika yang cukup menantang. Alice memberitahu Bob bahwa ia telah menyelesaikannya. Namun Bob belum berhasil memecahkannya dan juga ingin memastikan bahwa Alice benar benar telah menyelesaikannya. Suatu cara yang valid adalah Alice mengirimkan solusi nya (message) yang lalu di-hash menjadi message digest yang kemudian dikirimkan kepada Bob. Suatu saat, ketika Bob telah menyelesaikannya, ia akan dapat mencek solusinya dengan solusi Alice untuk memastikan bahwa Alice telah benar benar menyelesaikannya duluan dan jawabannya jugalah benar.</p>
+	
+	<p>Pada penyimpanan password, akan sangat berbahaya apabila sebuah server yang menyimpan database user menyimpan passwordnya tanpa adanya modifikasi. Dengan bantuan adanya hash, maka meskipun password tersebut bocor, tidak akan terlalu mudah untuk mencari password aslinya dikarenakan bukan password nya yang disimpan melainkan hasil hash dari password tersebut.</p>
+	
+	<p>Salah satu algoritma yang sering digunakan dalam hash adalah MD5 message-digest algorithm. Algoritma ini menghasil 16-byte ( 128-bit ) hash value. Namun, algoritma ini tidaklah collision-resistant yang artinya tidaklah sulit untuk emcari dua buah message yang menghasilkan sebuah hasil hash yang sama. Tidak dapat dipungkiri bahwa tidak mungkin tidak terdapat message yang memiliki hasil hash yang sama dikarenakan jumlah message berbeda yang jumlahnya jauh lebih sedikit dibandinkan dengan jumlah total hash yang berbeda (Pigeonhole Principle). Namun terdapat sebuah isu yang membuat md5 menjadi kurang kuat yaitu kerap disebut dengan birthday paradox.</p>
+	
+	<p>Anda dapat mencoba menghash masukan anda menggunakan Tools dibawah ini <u>JIKA</u> anda terkonek ke Internet</p>
+	<iframe src="http://www.md5.cz/" width=100% frameborder="0"></iframe>
+	
+	<p>Birthday paradox adalah suatu paradoks yang secara intuitif aneh namun benar pada kenyataannya. Paradoks ini berisi bahwa untuk n buah objek berbeda, hanya diperlukan 1.25sqrt(n) objek secara rata rata untuk menemukan 2 buah objek yang sama, yang artinya bahwa terdapat 50% kemungkinan untuk menemukan 2 buah objek yang sama pada pengambilan 1.25sqrt(n) buah objek dari n buah objek yang berbeda. Ini akan dibuktikan secara sederhana sebagai berikut.</p>
+	
+	<p>Anggap terdapat n buah objek yang berbeda. Untuk pengambilan dua buah benda secara acak, peluang untuk kedua objek berbeda adalah (n-1)/n. Ini mungkin terkesan kecil. Namun, hal yang perlu kita sadari adalah ketika kita mengambil n buah objek berbeda, terdapat nC2 buah perbandingan yang sebenarnya terjadi, misalnya setelah mengambil 3 buah objek, kita menambah sebuah objek baru. Disini kemungkinan objek baru tersebut untuk sama dengan sisa 3 objek lainnya cukup besar karena terdapat perbandingan antara objek 1 dengan 4, 2 dengan 4 dan 3 dengan 4. Begitu pula seterusnya secara rekursif untuk n yang jauh lebih besar. Dengan begini maka peluang 50% agar terdapat 2 buah objek yang terambil adalah sama yaitu kira kira seperti berikut.</p>
+	
+	<p>Y = pow( (n-1)/n , <sub>x</sub>C<sub>2</sub> )&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;Y = <sub>(n-1)/n</sub> <sup><sub>x</sub>C<sub>2</sub></sup><br />
+		<span>x adalah jumlah objek yang telah diambil</span><br />
+		<span>Y adalah probabilitas semua objek yang diambil adalah berbeda, dengan demikian</span>
+	</p>
+	
+	<p>X = 1 - Y <br />
+		<span>X adalah probabilitas terdapat minimal 2 buah objek yang sama.</span>
+	</p>
+	
+	<p>Disini kita dapat mengambil contoh jika terdapat sebuah pesta dimana terdapat banyak sekali orang dengan tanggal lahir masing masing yang independen, jika x(jumlah orang berbeda yang dipilih) adalah 24 dan n(jumlah hari dalam setahun) adalah 366, maka akan didapat Y kurang lebih 0.5, yang artinya bahwa X = 1 - Y = 0.5 dimana terdapat peluang 50% dalam tiap pemilihan 24 buah orang berbeda terdapat minimal 2 orang yang memiliki tanggal lahir yang sama.</p>
+	
+	<p>Dibawah adalah simulasi yang dapat anda coba untuk menguji Birthday Paradox <u>JIKA</u> anda terkonek ke internet. Pilihlah Items = 365 and People = 24</p>
+	<p>Dalam jangka panjang, kamu akan melihat bahwa 50% dari jumlah percobaan akan terdapat Item yang sama. </p>
+	
+	<iframe width=100% height=250px src="http://betterexplained.com/examples/birthday/birthday.html" frameborder="0"></iframe>
+	
+	<p>Apabila dihitung persamaan diatas, maka akan didapat bahwa x adalah kurang lebih 1.25sqrt(n).</p>
+	
+	<p>Dengan adanya birthday problem seperti yang disebutkan diatas, kita dapat melihat bahwa pada md5 hanya terdapat 128-bit output yang artinya hanya diperlukan sekitar 1.25sqrt(pow(2, 128/2)) atau 1.25sqrt(pow(2, 64)) untuk menemukan dua buah message yang memiliki hash yang sama. Pada jaman sekarang, dengan mesin yang memiliki tingkat komputasi tinggi tidaklah lagi sulit untuk memecahkannya sehingga ini merupakan salah satu alasan kenapa md5 telah jarang digunakan.</p>
+	
+</body>
+</html>
